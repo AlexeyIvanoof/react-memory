@@ -1,0 +1,150 @@
+.container {
+  width: 944px;
+  margin: 0 auto;
+  padding: 26px;
+  padding-top: 22px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.cards {
+  width: 628px;
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 100px;
+}
+
+.modalContainer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #004980c0;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+  margin-bottom: 30px;
+  gap: 30px;
+}
+
+.timer {
+  display: flex;
+  align-items: end;
+
+  color: #fff;
+  font-family: "StratosSkyeng";
+  font-size: 62px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 50px;
+}
+
+.previewText {
+  font-size: 30px;
+  line-height: 30px;
+  margin-top: 34px;
+  margin-bottom: 10px;
+}
+.previewDescription {
+  font-size: 18px;
+  line-height: 18px;
+}
+
+.timerValue {
+  text-align: right;
+}
+
+.timerDescription {
+  color: #fff;
+  font-variant-numeric: lining-nums proportional-nums;
+  font-family: "StratosSkyeng";
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 32px;
+  margin-right: 4px;
+}
+
+.lifeHeart {
+  width: 25px;
+  height: 25px;
+  margin-bottom: 12px;
+}
+
+.lifeText {
+  color: #fff;
+  font-variant-numeric: lining-nums proportional-nums;
+  font-family: "StratosSkyeng";
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 26px;
+  margin-bottom: 12px;
+}
+
+.alohomoraContent {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: center;
+}
+
+.alohomoraBack {
+  width: 68px;
+  height: 68px;
+  border-radius: 50px;
+  opacity: 0px;
+  background: #c2f5ff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.alohomoraImg {
+  width: 46.03px;
+  height: 49.2px;
+  border-radius: 2px;
+  border: 1px;
+  opacity: 0px;
+}
+
+.alohomoraText {
+  display: none;
+}
+
+.alohomoraContent:hover .alohomoraText {
+  display: block;
+  position: absolute;
+  z-index: 100;
+  min-height: 60px;
+  top: 120px;
+  width: 200px;
+  border-radius: 12px;
+  opacity: 0px;
+  background: #c2f5ff;
+  color: #004980;
+  text-align: center;
+  padding-top: 20px;
+  font-family: "Inter";
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 24px;
+}
+
+.notActive {
+  background: gray;
+  opacity: 0.5;
+  pointer-events: none;
+}
+

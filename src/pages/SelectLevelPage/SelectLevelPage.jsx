@@ -11,19 +11,20 @@ export function SelectLevelPage() {
   //setIsEasyMode(false);
   const selectGameMode = () => setIsEasyMode(prevstate => !prevstate);
   const [difficult, setDifficult] = useState({});
+
   const selectDifficult = e => {
-    const { name, value } = e.target;
-    setDifficult({ ...difficult, [name]: value });
+    const { value } = e.target;
+    setDifficult(value);
   };
 
   let number = 3;
-  if (difficult.mode === "easy") {
+  if (difficult === "easy") {
     number = 3;
   }
-  if (difficult.mode === "middle") {
+  if (difficult === "middle") {
     number = 6;
   }
-  if (difficult.mode === "hard") {
+  if (difficult === "hard") {
     number = 9;
   }
 

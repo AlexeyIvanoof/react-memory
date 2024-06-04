@@ -69,10 +69,12 @@
   }
   
   .position {
+    font-family: "Poppins";
     width: 178px;
   }
   
   .name {
+    font-family: "Poppins";
     width: 227px;
     white-space: nowrap;
     overflow: hidden;

@@ -4,16 +4,6 @@ import cn from "classnames";
 import { Button } from "../../components/Button/Button";
 import { getLeaderList } from "../../api/api";
 import { useEffect, useState } from "react";
-//import hardColorImg from "./images/hardColor.png";
-//import hardGrayImg from "./images/hardGray.png";
-//import superColorImg from "./images/superColor.png";
-//import superGrayImg from "./images/superGray.png";
-
-//const hardColor = hardColorImg;
-//const hardGray = hardGrayImg;
-//const superColor = superColorImg;
-//const superGray = superGrayImg;
-
 export function LeaderBoardPage() {
   const [leaders, setLeaders] = useState([]);
 
@@ -31,19 +21,6 @@ export function LeaderBoardPage() {
 
     return `${zeroMinutes}${minutes}:${zeroSeconds}${seconds}`;
   }
-
-  /*function hardPlayed(list) {
-    if (list.achievements.includes(1)) {
-      return true;
-    }
-  }
-
-  function superPlayed(list) {
-    if (list.achievements.includes(2)) {
-      return true;
-    }
-  }*/
-
   return (
     <>
       <div className={styles.content}>

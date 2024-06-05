@@ -43,6 +43,19 @@ export function EndGameModal({ isWon, gameDurationSeconds, gameDurationMinutes, 
       time: timeToBoard,
       achievements: achievements,
     });
+    // запрет отправки пустой строки
+    nameInputElement.onkeyup = function () {
+      if (this.value.match(/^[ ]+$/)) {
+        // В значении только пробелы
+        this.value = "";
+      }
+    };
+  };
+  // блок кнопки на повторное нажатие
+  window.onload = function () {
+    document.getElementById("onetime").onclick = function () {
+      this.disabled = "disabled";
+    };
   };
 
   return (
@@ -50,9 +63,14 @@ export function EndGameModal({ isWon, gameDurationSeconds, gameDurationMinutes, 
       <img className={styles.image} src={imgSrc} alt={imgAlt} />
       <h2 className={styles.title}>{title}</h2>
       {isLeader ? (
-        <div className={styles.userblock}>
-          <input id="name-input" type="text" className={styles.input} placeholder="Пользователь" />
-        </div>
+        <>
+          <div className={styles.userblock}>
+            <input id="name-input" type="text" className={styles.input} placeholder="Пользователь" />
+          </div>
+          <Button id="onetime" onClick={sumbitPostLeader}>
+            Отправить
+          </Button>
+        </>
       ) : null}
       <p className={styles.description}>Затраченное время:</p>
       <div className={styles.time}>{time}</div>
@@ -60,9 +78,7 @@ export function EndGameModal({ isWon, gameDurationSeconds, gameDurationMinutes, 
       {isLeader ? (
         <>
           <Link to="/leaderboard">
-            <div className={styles.leaderBoardLink} onClick={sumbitPostLeader}>
-              Перейти к лидерборду
-            </div>
+            <div className={styles.leaderBoardLink}>Перейти к лидерборду</div>
           </Link>
         </>
       ) : null}

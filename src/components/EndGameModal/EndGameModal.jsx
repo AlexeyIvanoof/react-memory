@@ -7,10 +7,13 @@ import celebrationImageUrl from "./images/celebration.png";
 import { Link, useParams } from "react-router-dom";
 import { postLeader } from "../../api/api";
 import { useGameMode } from "../../hooks/useGameMode";
+import { useState } from "react";
 
 export function EndGameModal({ isWon, gameDurationSeconds, gameDurationMinutes, onClick }) {
   const { pairsCount } = useParams();
   const { isEasyMode } = useGameMode();
+
+  // const navigate = useNavigate;
 
   const hardLevelPairsNumber = 3;
 
@@ -24,7 +27,10 @@ export function EndGameModal({ isWon, gameDurationSeconds, gameDurationMinutes, 
 
   const imgAlt = isWon ? "celebration emodji" : "dead emodji";
 
-  const nameInputElement = document.getElementById("name-input");
+  const [nameInputElement, setNameInputElement] = useState("");
+  //const nameInputElement = document.getElementById("name-input");
+
+  const [error, setError] = useState(null);
 
   let achievements = [];
 
@@ -36,26 +42,34 @@ export function EndGameModal({ isWon, gameDurationSeconds, gameDurationMinutes, 
     .toString()
     .padStart("2", "0")}`;
 
-  const sumbitPostLeader = () => {
+  /*const sumbitPostLeader = () => {
     const timeToBoard = gameDurationMinutes * 60 + gameDurationSeconds;
+     if (!nameInputElement.trim()) {
+        alert("Введите имя!");
+      }
     postLeader({
       nameInputElement,
       time: timeToBoard,
       achievements: achievements,
     });
-    // запрет отправки пустой строки
-    nameInputElement.onkeyup = function () {
-      if (this.value.match(/^[ ]+$/)) {
-        // В значении только пробелы
-        this.value = "";
+  };*/
+
+  const sumbitPostLeader = async event => {
+    event.preventDefault();
+    try {
+      const timeToBoard = gameDurationMinutes * 60 + gameDurationSeconds;
+      if (!nameInputElement.trim()) {
+        throw new Error("Введите имя!");
       }
-    };
-  };
-  // блок кнопки на повторное нажатие
-  window.onload = function () {
-    document.getElementById("onetime").onclick = function () {
-      this.disabled = "disabled";
-    };
+      await postLeader({
+        nameInputElement,
+        time: timeToBoard,
+        achievements: achievements,
+      });
+      //navigate("/leaderboard");
+    } catch (error) {
+      setError(error.message);
+    }
   };
 
   return (
@@ -65,11 +79,21 @@ export function EndGameModal({ isWon, gameDurationSeconds, gameDurationMinutes, 
       {isLeader ? (
         <>
           <div className={styles.userblock}>
-            <input id="name-input" type="text" className={styles.input} placeholder="Пользователь" />
+            <input
+              className={styles.input}
+              type="text"
+              name="nameInputElement"
+              placeholder="Пользователь"
+              value={nameInputElement}
+              onChange={event => {
+                setNameInputElement(event.target.value);
+              }}
+            />
           </div>
-          <Button id="onetime" onClick={sumbitPostLeader}>
-            Отправить
-          </Button>
+          <p style={{ color: "red" }}>{error}</p>
+          <Link to="/leaderboard">
+            <Button onClick={sumbitPostLeader}>Отправить</Button>
+          </Link>
         </>
       ) : null}
       <p className={styles.description}>Затраченное время:</p>

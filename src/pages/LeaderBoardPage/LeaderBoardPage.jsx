@@ -4,12 +4,22 @@ import cn from "classnames";
 import { Button } from "../../components/Button/Button";
 import { getLeaderList } from "../../api/api";
 import { useEffect, useState } from "react";
+import hardColorImg from "./images/hardColor.png";
+import hardGrayImg from "./images/hardGray.png";
+import superColorImg from "./images/superColor.png";
+import superGrayImg from "./images/superGray.png";
+
+const hardColor = hardColorImg;
+const hardGray = hardGrayImg;
+const superColor = superColorImg;
+const superGray = superGrayImg;
+
 export function LeaderBoardPage() {
   const [leaders, setLeaders] = useState([]);
 
   useEffect(() => {
     getLeaderList().then(data => {
-      setLeaders(data.leaders.sort((a, b) => (a.time > b.time ? 1 : -1)).slice(0, 10));
+      setLeaders(data.leaders.sort((a, b) => (a.time > b.time ? 1 : -1)).slice(0, 80));
     });
   }, []);
 
@@ -21,6 +31,19 @@ export function LeaderBoardPage() {
 
     return `${zeroMinutes}${minutes}:${zeroSeconds}${seconds}`;
   }
+
+  function hardPlayed(list) {
+    if (list.achievements.includes(1)) {
+      return true;
+    }
+  }
+
+  function superPlayed(list) {
+    if (list.achievements.includes(2)) {
+      return true;
+    }
+  }
+
   return (
     <>
       <div className={styles.content}>
@@ -34,12 +57,48 @@ export function LeaderBoardPage() {
           <div className={cn(styles.listContent, styles.titleText)}>
             <div className={styles.position}>Позиция</div>
             <div className={styles.name}>Пользователь</div>
+            <div className={styles.achievements}>Достижения</div>
             <div className={styles.time}>Время</div>
           </div>
           {leaders.map((list, index) => (
             <div className={cn(styles.listContent, styles.playerText)} key={list.id}>
               <div className={styles.position}># {index + 1}</div>
               <div className={styles.name}>{list.name}</div>
+              <div className={styles.achievements}>
+                {hardPlayed(list) ? (
+                  <div className={styles.achievementsContent}>
+                    <img className={styles.hardImg} src={hardColor} alt="hard played" />
+                    <div className={styles.clueText}>
+                      Игра пройдена
+                      <br /> в сложном режиме
+                    </div>
+                  </div>
+                ) : (
+                  <div className={styles.achievementsContent}>
+                    <img className={styles.hardImg} src={hardGray} alt="not hard played" />
+                    <div className={styles.clueText}>
+                      Игра пройдена
+                      <br /> в сложном режиме
+                    </div>
+                  </div>
+                )}
+                {superPlayed(list) ? (
+                  <div className={styles.achievementsContent}>
+                    <img className={styles.achievementImg} src={superGray} alt="with super played" />
+                    <div className={styles.clueText}>
+                      Игра пройдена
+                      <br /> без супер-сил
+                    </div>
+                  </div>
+                ) : (
+                  <div className={styles.achievementsContent}>
+                    <img className={styles.achievementImg} src={superColor} alt="without super played" />
+                    <div className={styles.clueText}>
+                      Игра пройдена <br /> без супер-сил
+                    </div>
+                  </div>
+                )}
+              </div>
               <div className={styles.time}>{leaderTime(list.time)}</div>
             </div>
           ))}

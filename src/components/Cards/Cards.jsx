@@ -7,10 +7,12 @@ import { Button } from "../../components/Button/Button";
 import { Card } from "../../components/Card/Card";
 import { useGameMode } from "../../hooks/useGameMode";
 import lifeHeartImageUrl from "../Cards/images/lifeHeart.png";
+import alohomoraImageUrl from "../Cards/images/alohomora.png";
 import { Link } from "react-router-dom";
+import cn from "classnames";
 
 const lifeHeartImage = lifeHeartImageUrl;
-
+const alohomoraImage = alohomoraImageUrl;
 // Игра закончилась
 const STATUS_LOST = "STATUS_LOST";
 const STATUS_WON = "STATUS_WON";
@@ -67,9 +69,34 @@ export function Cards({ pairsCount = 3, previewSeconds = 5 }) {
   const [lifes, setLifes] = useState(isEasyMode ? 3 : 1);
   //const [setLastCard] = useState(false);
 
+  // Подключаем алахамору
+  const [usedAlohomora, setUsedAlohomora] = useState(false);
+  const [usedOnce, setUsedOnce] = useState(false);
+  const [lastCard, setLastCard] = useState(false);
+
+  function useAlohomora() {
+    setUsedAlohomora(true);
+  }
+
+  useEffect(() => {
+    if (usedAlohomora && !usedOnce) {
+      const notOpenedCards = cards.filter(card => !card.open);
+      const randomCard = notOpenedCards[Math.floor(Math.random() * notOpenedCards.length)];
+      const randomPair = notOpenedCards.filter(
+        sameCards => randomCard.suit === sameCards.suit && randomCard.rank === sameCards.rank,
+      );
+
+      randomPair[1].open = true;
+      randomPair[0].open = true;
+
+      setUsedOnce(true);
+    }
+  }, [cards, usedAlohomora, usedOnce]);
+
   function finishGame(status = STATUS_LOST) {
     setGameEndDate(new Date());
     setStatus(status);
+    setIsEasyMode(false);
   }
   function startGame() {
     const startDate = new Date();
@@ -141,6 +168,9 @@ export function Cards({ pairsCount = 3, previewSeconds = 5 }) {
         openCardsWithoutPair[0].open = false;
       }, 1000);
       setLifes(lifes - 1);
+    }
+    if (cards.filter(card => !card.open).length === 2) {
+      setLastCard(true);
     }
     // ... игра продолжается
   };
@@ -217,6 +247,15 @@ export function Cards({ pairsCount = 3, previewSeconds = 5 }) {
 
         {status === STATUS_IN_PROGRESS ? (
           <>
+            <div className={styles.alohomoraContent}>
+              <div
+                onClick={useAlohomora}
+                className={cn(styles.alohomoraBack, { [styles.notActive]: usedAlohomora || lastCard })}
+              >
+                <img className={styles.alohomoraImg} src={alohomoraImage} alt="alohomora" />
+              </div>
+              <div className={styles.alohomoraText}>"Алохомора" - открывает случайную пару карт</div>
+            </div>
             <div className={styles.lifeText}>Количество жизней: {lifes}</div>
             <img className={styles.lifeHeart} src={lifeHeartImage} alt="life_heart" />
             <Button onClick={resetGame}>Начать заново</Button>

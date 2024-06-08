@@ -8,7 +8,7 @@ import cn from "classnames";
 
 export function SelectLevelPage() {
   const { setIsEasyMode } = useGameMode();
-  //setIsEasyMode(false);
+
   const selectGameMode = () => setIsEasyMode(prevstate => !prevstate);
   const [difficult, setDifficult] = useState({});
 

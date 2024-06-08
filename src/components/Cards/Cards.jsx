@@ -65,12 +65,12 @@ export function Cards({ pairsCount = 3, previewSeconds = 5 }) {
   });
 
   // Подключаем easyMode
-  const { isEasyMode, setIsEasyMode } = useGameMode();
+  const { isEasyMode } = useGameMode();
   const [lifes, setLifes] = useState(isEasyMode ? 3 : 1);
   //const [setLastCard] = useState(false);
 
   // Подключаем алахамору
-  const [usedAlohomora, setUsedAlohomora] = useState(false);
+  const { usedAlohomora, setUsedAlohomora } = useGameMode();
   const [usedOnce, setUsedOnce] = useState(false);
   const [lastCard, setLastCard] = useState(false);
 
@@ -96,8 +96,8 @@ export function Cards({ pairsCount = 3, previewSeconds = 5 }) {
   function finishGame(status = STATUS_LOST) {
     setGameEndDate(new Date());
     setStatus(status);
-    setIsEasyMode(false);
   }
+
   function startGame() {
     const startDate = new Date();
     setGameEndDate(null);
@@ -107,11 +107,13 @@ export function Cards({ pairsCount = 3, previewSeconds = 5 }) {
   }
   function resetGame() {
     setLifes(isEasyMode ? 3 : 1);
+    setLastCard(false);
+    setUsedAlohomora(false);
+    setUsedOnce(false);
     setGameStartDate(null);
     setGameEndDate(null);
     setTimer(getTimerValue(null, null));
     setStatus(STATUS_PREVIEW);
-    setIsEasyMode(false);
   }
 
   /**

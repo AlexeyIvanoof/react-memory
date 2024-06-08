@@ -18,8 +18,8 @@ export async function postLeader({ nameInputElement, time, achievements }) {
     method: "POST",
     body: JSON.stringify({
       name: nameInputElement,
-      time,
-      achievements,
+      time: time,
+      achievements: achievements,
       /*name: nameInputElement.value ? nameInputElement.value : "Пользователь",
       time: time,
       achievements: achievements,*/

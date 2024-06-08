@@ -8,6 +8,7 @@ import hardColorImg from "./images/hardColor.png";
 import hardGrayImg from "./images/hardGray.png";
 import superColorImg from "./images/superColor.png";
 import superGrayImg from "./images/superGray.png";
+import { useGameMode } from "../../hooks/useGameMode";
 
 const hardColor = hardColorImg;
 const hardGray = hardGrayImg;
@@ -16,10 +17,11 @@ const superGray = superGrayImg;
 
 export function LeaderBoardPage() {
   const [leaders, setLeaders] = useState([]);
+  const { setIsEasyMode, setUsedAlohomora } = useGameMode();
 
   useEffect(() => {
     getLeaderList().then(data => {
-      setLeaders(data.leaders.sort((a, b) => (a.time > b.time ? 1 : -1)).slice(0, 80));
+      setLeaders(data.leaders.sort((a, b) => (a.time > b.time ? 1 : -1)).slice(0, 30));
     });
   }, []);
 
@@ -43,6 +45,10 @@ export function LeaderBoardPage() {
       return true;
     }
   }
+  function startGame() {
+    setIsEasyMode(false);
+    setUsedAlohomora(false);
+  }
 
   return (
     <>
@@ -50,7 +56,7 @@ export function LeaderBoardPage() {
         <div className={styles.header}>
           <div className={styles.pagename}>Лидерборд</div>
           <Link to="/">
-            <Button>Начать игру</Button>
+            <Button onClick={startGame}>Начать игру</Button>
           </Link>
         </div>
         <div className={styles.list}>

@@ -4,20 +4,22 @@ import { Button } from "../Button/Button";
 
 import deadImageUrl from "./images/dead.png";
 import celebrationImageUrl from "./images/celebration.png";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useNavigate } from "react-router-dom";
 import { postLeader } from "../../api/api";
 import { useGameMode } from "../../hooks/useGameMode";
 import { useState } from "react";
 
 export function EndGameModal({ isWon, gameDurationSeconds, gameDurationMinutes, onClick }) {
   const { pairsCount } = useParams();
-  const { isEasyMode } = useGameMode();
+  const { isEasyMode, usedAlohomora } = useGameMode();
 
-  // const navigate = useNavigate;
+  const navigate = useNavigate();
 
   const hardLevelPairsNumber = 3;
 
   const isLeader = isWon && Number(pairsCount) === hardLevelPairsNumber;
+
+  const superPlayed = isLeader && usedAlohomora === true;
 
   const hardPlayed = isLeader && isEasyMode === false;
 
@@ -28,7 +30,6 @@ export function EndGameModal({ isWon, gameDurationSeconds, gameDurationMinutes, 
   const imgAlt = isWon ? "celebration emodji" : "dead emodji";
 
   const [nameInputElement, setNameInputElement] = useState("");
-  //const nameInputElement = document.getElementById("name-input");
 
   const [error, setError] = useState(null);
 
@@ -38,21 +39,13 @@ export function EndGameModal({ isWon, gameDurationSeconds, gameDurationMinutes, 
     achievements.unshift(1);
   }
 
+  if (superPlayed) {
+    achievements.unshift(2);
+  }
+
   const time = `${gameDurationMinutes.toString().padStart("2", "0")}.${gameDurationSeconds
     .toString()
     .padStart("2", "0")}`;
-
-  /*const sumbitPostLeader = () => {
-    const timeToBoard = gameDurationMinutes * 60 + gameDurationSeconds;
-     if (!nameInputElement.trim()) {
-        alert("Введите имя!");
-      }
-    postLeader({
-      nameInputElement,
-      time: timeToBoard,
-      achievements: achievements,
-    });
-  };*/
 
   const sumbitPostLeader = async event => {
     event.preventDefault();
@@ -66,7 +59,7 @@ export function EndGameModal({ isWon, gameDurationSeconds, gameDurationMinutes, 
         time: timeToBoard,
         achievements: achievements,
       });
-      //navigate("/leaderboard");
+      navigate("/leaderboard");
     } catch (error) {
       setError(error.message);
     }
@@ -91,9 +84,7 @@ export function EndGameModal({ isWon, gameDurationSeconds, gameDurationMinutes, 
             />
           </div>
           <p style={{ color: "red" }}>{error}</p>
-          <Link to="/leaderboard">
-            <Button onClick={sumbitPostLeader}>Отправить</Button>
-          </Link>
+          <Button onClick={sumbitPostLeader}>Отправить</Button>
         </>
       ) : null}
       <p className={styles.description}>Затраченное время:</p>

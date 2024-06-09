@@ -7,9 +7,9 @@ import { Link } from "react-router-dom";
 import cn from "classnames";
 
 export function SelectLevelPage() {
+  window.history.go(1);
   const { setIsEasyMode } = useGameMode();
-
-  const selectGameMode = () => setIsEasyMode(prevstate => !prevstate);
+  const selectGameMode = setIsEasyMode;
   const [difficult, setDifficult] = useState({});
 
   const selectDifficult = e => {

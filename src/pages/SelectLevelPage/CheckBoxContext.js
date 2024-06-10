@@ -5,11 +5,9 @@ export const GameModeContext = createContext(null);
 export const GameModeProvider = ({ children }) => {
   const [isEasyMode, setIsEasyMode] = useState(false);
   const [usedAlohomora, setUsedAlohomora] = useState(false);
-  const [checked, setChecked] = useState(false);
+
   return (
-    <GameModeContext.Provider
-      value={{ isEasyMode, setIsEasyMode, usedAlohomora, setUsedAlohomora, checked, setChecked }}
-    >
+    <GameModeContext.Provider value={{ isEasyMode, setIsEasyMode, usedAlohomora, setUsedAlohomora }}>
       {children}
     </GameModeContext.Provider>
   );

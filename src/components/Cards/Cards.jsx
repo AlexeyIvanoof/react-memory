@@ -65,7 +65,7 @@ export function Cards({ pairsCount = 3, previewSeconds = 5 }) {
   });
 
   // Подключаем easyMode
-  const { isEasyMode, setIsEasyMode } = useGameMode();
+  const { isEasyMode } = useGameMode();
   const [lifes, setLifes] = useState(isEasyMode ? 3 : 1);
   //const [setLastCard] = useState(false);
 
@@ -114,7 +114,6 @@ export function Cards({ pairsCount = 3, previewSeconds = 5 }) {
     setGameEndDate(null);
     setTimer(getTimerValue(null, null));
     setStatus(STATUS_PREVIEW);
-    setIsEasyMode(false);
   }
 
   /**

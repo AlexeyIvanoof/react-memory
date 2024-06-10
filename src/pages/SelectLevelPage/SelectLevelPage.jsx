@@ -7,9 +7,10 @@ import { Link } from "react-router-dom";
 import cn from "classnames";
 
 export function SelectLevelPage() {
-  window.history.go(1);
+  //window.history.go(1);
   const { setIsEasyMode } = useGameMode();
-  const selectGameMode = setIsEasyMode;
+  //const { setChecked } = useGameMode();
+  const selectGameMode = () => setIsEasyMode(prevstate => !prevstate);
   const [difficult, setDifficult] = useState({});
 
   const selectDifficult = e => {
@@ -73,7 +74,13 @@ export function SelectLevelPage() {
             </label>
           </li>
         </ul>
-        <Checkbox id={"modeCheckbox"} name={"modeCheckbox"} label={"Легкий режим (3 жизни)"} onClick={selectGameMode} />
+        <Checkbox
+          id={"modeCheckbox"}
+          name={"modeCheckbox"}
+          label={"Легкий режим (3 жизни)"}
+          //checked={setChecked}
+          onClick={selectGameMode}
+        />
         <Link to={`/game/${number}`}>
           <Button>Играть</Button>
         </Link>

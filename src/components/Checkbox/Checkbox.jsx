@@ -1,9 +1,9 @@
 import styles from "./Checkbox.module.css";
 
-export default function Checkbox({ id, name, label, onClick }) {
+export default function Checkbox({ id, name, label, onClick, checked }) {
   return (
     <div className={styles.wrapper}>
-      <input type="checkbox" id={id} name={name} className={styles.input} onClick={onClick} />
+      <input type="checkbox" id={id} name={name} checked={checked} className={styles.input} onClick={onClick} />
       <label htmlFor={id} className={styles.label}>
         {label}
       </label>

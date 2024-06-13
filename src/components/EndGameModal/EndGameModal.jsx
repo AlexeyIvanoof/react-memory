@@ -15,7 +15,7 @@ export function EndGameModal({ isWon, gameDurationSeconds, gameDurationMinutes, 
 
   const navigate = useNavigate();
 
-  const hardLevelPairsNumber = 3;
+  const hardLevelPairsNumber = 6 && 9;
 
   const isLeader = isWon && Number(pairsCount) === hardLevelPairsNumber;
 

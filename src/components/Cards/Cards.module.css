@@ -124,6 +124,7 @@
 }
 
 .alohomoraContent:hover .alohomoraText {
+  box-shadow: 0 0 0 99999px rgba(5, 12, 45, 0.542);
   display: block;
   position: absolute;
   z-index: 100;
